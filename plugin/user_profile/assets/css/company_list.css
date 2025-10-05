@@ -1,0 +1,8 @@
+/* Company list styles */
+.company.card { border: 1px solid #eee; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 20px; }
+.company .card-title { font-weight: bold; text-align: center; background: #f7f7f7; margin: 0; padding: 10px; }
+.company-section { border: 1px solid #eee; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); padding: 15px; margin-bottom: 20px; }
+.company-cards > [class^="col-"], .company-cards > [class*=" col-"] { display: flex; }
+.company-cards .company.card { display: flex; flex-direction: column; width:100%; height:100%; }
+.company-cards .company .card-body { display:flex; flex-direction:column; flex:1; }
+.company-cards .company .actions-row { margin-top: auto; }

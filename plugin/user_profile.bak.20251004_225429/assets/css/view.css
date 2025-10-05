@@ -1,0 +1,12 @@
+/* User profile view styles */
+.user-profile.card { margin-top: 10px; }
+.user-profile .card-title { font-weight: bold; text-align: center; background: #E1F0F5; margin: 0; padding: 10px; }
+.export-actions-box, .export-final-box, .export-box { display:block; width:100%; border:1px solid #eee; border-radius:4px; background:#fff; padding:6px 8px; margin:0; }
+.export-actions-box { margin: 0 0 12px 0; }
+.export-final-title { font-weight: 600; font-size: 12px; text-align: center; margin: 0 0 4px 0; }
+.export-final-content { display: flex; align-items: center; justify-content: center; }
+.export-final-content .icon { display: inline-block; margin: 0 6px; }
+@media (max-width: 768px) {
+  .header-toolbar .export-final-box { width: 100%; margin-left: 0 !important; margin-top: 6px; display: flex; flex-direction: column; align-items: flex-end; }
+  .header-toolbar .export-final-title { width: 100%; text-align: right; }
+}

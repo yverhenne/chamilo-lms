@@ -1,0 +1,6 @@
+/* Teachers management UI */
+.teacher-item { display: flex; align-items: center; cursor: pointer; }
+.teacher-name { flex-grow: 1; }
+.teacher-check { display: none; margin-left: 8px; }
+.teacher-item.checked .teacher-check { display: inline; }
+.teacher-msg { margin-left: 8px; }

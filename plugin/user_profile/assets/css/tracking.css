@@ -1,0 +1,33 @@
+/* Tracking pages styles */
+.user-profile .card-title {
+  font-weight: bold;
+  text-align: center;
+  background: #337ab7;
+  color: #fff;
+  margin: 0;
+  padding: 10px;
+  border-radius: 5px 5px 0 0;
+}
+.user-section-title { background: #e9ecef; color: #495057; }
+.progress-circle { --p:0%; width:80px; height:80px; border-radius:50%; background: conic-gradient(#28a745 var(--p), #e9ecef 0); display:flex; align-items:center; justify-content:center; font-weight:bold; }
+/* Add spacing below the "Time spent last week" block */
+.time-block { margin-bottom: 12px; }
+
+/* Equal-height layout for the top search/quick-check row */
+.user-profile-cols {
+  /* Bootstrap .row is already display:flex; keep semantics explicit in case of overrides */
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch; /* make columns match tallest */
+}
+.user-profile-cols > [class^="col-"],
+.user-profile-cols > [class*=" col-"] {
+  display: flex; /* make the column a flex container */
+}
+.user-profile-cols > [class^="col-"] > .user-profile-section,
+.user-profile-cols > [class*=" col-"] > .user-profile-section {
+  display: flex;            /* allow inner content to stack */
+  flex-direction: column;
+  flex: 1 1 auto;           /* stretch to fill column height */
+  width: 100%;
+}

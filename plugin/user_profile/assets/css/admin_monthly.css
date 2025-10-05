@@ -1,0 +1,10 @@
+/* Admin monthly evaluation page-only styles */
+.am-title { position: relative; display: flex; justify-content: center; align-items: center; }
+.am-title__label { display: block; text-align: center; width: 100%; }
+.am-title__actions { position: absolute; right: 12px; top: 6px; padding: 2px 6px; }
+.am-box { border: 1px solid #eee; border-radius: 4px; padding: 10px; }
+.am-flex { display: flex; align-items: flex-start; }
+.am-flex-1 { flex: 1 1 auto; }
+.am-flex-auto { flex: 0 0 auto; margin-left: 8px; }
+/* Spacing between top and bottom action rows */
+.am-actions-bottom { margin-top: 6px; }

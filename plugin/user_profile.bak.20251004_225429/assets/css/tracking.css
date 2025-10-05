@@ -1,0 +1,14 @@
+/* Tracking pages styles */
+.user-profile .card-title {
+  font-weight: bold;
+  text-align: center;
+  background: #337ab7;
+  color: #fff;
+  margin: 0;
+  padding: 10px;
+  border-radius: 5px 5px 0 0;
+}
+.user-section-title { background: #e9ecef; color: #495057; }
+.progress-circle { --p:0%; width:80px; height:80px; border-radius:50%; background: conic-gradient(#28a745 var(--p), #e9ecef 0); display:flex; align-items:center; justify-content:center; font-weight:bold; }
+/* Add spacing below the "Time spent last week" block */
+.time-block { margin-bottom: 12px; }

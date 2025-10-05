@@ -1,0 +1,5 @@
+/* Speed check cards */
+.user-profile.card { border:1px solid #eee; border-radius:4px; box-shadow:0 2px 4px rgba(0,0,0,0.05); margin-bottom:10px; }
+.user-profile .card-title { font-weight:bold; text-align:center; background:#f7f7f7; margin:0; padding:8px; }
+.user-profile .card-body { padding: 12px; }
+.actions-row { text-align: center; }

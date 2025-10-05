@@ -10,6 +10,15 @@ use ChamiloSession as Session;
  */
 $cidReset = true;
 require_once __DIR__.'/../inc/global.inc.php';
+require_once api_get_path(SYS_PLUGIN_PATH).'user_profile/UserProfilePlugin.php';
+$profilePluginEnabled = api_get_configuration_value('plugin_user_profile_enabled');
+$pluginInstalled = AppPlugin::getInstance()->isInstalled('user_profile');
+$profilePlugin = null;
+if ($profilePluginEnabled && $pluginInstalled) {
+    require_once api_get_path(SYS_PLUGIN_PATH).'user_profile/config.php';
+    require_once api_get_path(SYS_PLUGIN_PATH).'user_profile/UserProfilePlugin.php';
+    $profilePlugin = UserProfilePlugin::create();
+}
 
 api_protect_session_admin_list_users();
 
@@ -565,6 +574,8 @@ function modify_filter($user_id, $url_params, $row)
     $statusname = api_get_status_langvars();
     $user_is_anonymous = false;
     $current_user_status_label = $statusname[$row['7']];
+    $pluginInstalled = AppPlugin::getInstance()->isInstalled('user_profile');
+    $profilePlugin = UserProfilePlugin::create();
 
     if ($current_user_status_label == $statusname[ANONYMOUS]) {
         $user_is_anonymous = true;
@@ -597,8 +608,15 @@ function modify_filter($user_id, $url_params, $row)
 
     if (api_is_platform_admin()) {
         if (!$user_is_anonymous) {
+            $profilePluginEnabled = api_get_configuration_value('plugin_user_profile_enabled');
             $result .= '<a href="user_information.php?user_id='.$user_id.'">'.
                         Display::return_icon('info2.png', get_lang('Info')).'</a>&nbsp;&nbsp;';
+                        if ($profilePluginEnabled && $pluginInstalled) {
+                            $result .= Display::url(
+                            Display::return_icon('profile.png', get_lang('UserProfile')),
+                            $profilePlugin->getViewUrl($user_id)
+                        ).'&nbsp;';
+            }
         } else {
             $result .= Display::return_icon('info2_na.png', get_lang('Info')).'&nbsp;&nbsp;';
         }

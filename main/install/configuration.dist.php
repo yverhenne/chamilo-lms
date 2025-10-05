@@ -2712,3 +2712,6 @@ INSERT INTO extra_field (extra_field_type, field_type, variable, display_text, d
 ]; */
 // Extra field variable name to validate as unique per URL during user registration (e.g. 'dni')
 //$_configuration['extra_field_to_validate_on_user_registration'] = ''; // set in admin or directly (e.g. 'dni')
+
+// Enable the user profile plugin
+//$_configuration['plugin_user_profile_enabled'] = false;

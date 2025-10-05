@@ -10,6 +10,13 @@ $cidReset = true;
 
 // Including some necessary chamilo files.
 require_once __DIR__.'/../inc/global.inc.php';
+$profilePluginEnabled = api_get_configuration_value('plugin_user_profile_enabled');
+$pluginInstalled = AppPlugin::getInstance()->isInstalled('user_profile');
+if ($profilePluginEnabled && $pluginInstalled) {
+    require_once api_get_path(SYS_PLUGIN_PATH).'user_profile/config.php';
+    require_once api_get_path(SYS_PLUGIN_PATH).'user_profile/UserProfilePlugin.php';
+}
+
 
 // Setting the section (for the tabs).
 $this_section = SECTION_PLATFORM_ADMIN;
@@ -51,6 +58,7 @@ if (api_is_platform_admin()) {
     }
     $keyword_url = Security::remove_XSS((empty($_GET['keyword']) ? '' : $_GET['keyword']));
 }
+
 $blocks = [];
 
 // Instantiate Hook Event for Admin Block
@@ -94,6 +102,18 @@ $search_form = '
         </div>
     </form>';
 $blocks['users']['search_form'] = $search_form;
+
+// For session administrators, add link to User Profile plugin
+if (!api_is_platform_admin() && api_is_session_admin() && $profilePluginEnabled && $pluginInstalled) {
+    if (!isset($blocks['users']['items']) || !is_array($blocks['users']['items'])) {
+        $blocks['users']['items'] = [];
+    }
+    $blocks['users']['items'][] = [
+        'class' => 'item-user-profile-plugin',
+        'url' => UserProfilePlugin::create()->getAdminUrl(),
+        'label' => UserProfilePlugin::create()->get_lang('UserSheet'),
+    ];
+}
 
 if (api_is_platform_admin()) {
     $blocks['users']['editable'] = true;
@@ -142,6 +162,19 @@ if (api_is_platform_admin()) {
         'url' => 'extra_fields.php?type=user',
         'label' => get_lang('ManageUserFields'),
     ];
+    if ($profilePluginEnabled && $pluginInstalled) {
+        $items[] = [
+            'class' => 'item-user-profile-plugin',
+            'url' => UserProfilePlugin::create()->getAdminUrl(),
+            'label' => UserProfilePlugin::create()->get_lang('UserSheet'),
+        ];
+        // User tracking shortcut (plugin)
+        $items[] = [
+            'class' => 'item-user-profile-tracking',
+            'url' => UserProfilePlugin::create()->getTrackingUrl(),
+            'label' => UserProfilePlugin::create()->get_lang('UserTracking'),
+        ];
+    }
     $items[] = [
         'class' => 'item-user-groups',
         'url' => 'usergroups.php',
@@ -211,6 +244,20 @@ if (api_is_platform_admin()) {
                 'class' => 'item-justification-list',
                 'url' => api_get_path(WEB_PLUGIN_PATH).'justification/list.php',
                 'label' => get_lang('Justification'),
+            ];
+        }
+
+        // Add links to the User Profile plugin for session admins when enabled
+        if ($profilePluginEnabled && $pluginInstalled) {
+            $items[] = [
+                'class' => 'item-user-profile-plugin',
+                'url' => UserProfilePlugin::create()->getAdminUrl(),
+                'label' => UserProfilePlugin::create()->get_lang('UserSheet'),
+            ];
+            $items[] = [
+                'class' => 'item-user-profile-tracking',
+                'url' => UserProfilePlugin::create()->getTrackingUrl(),
+                'label' => UserProfilePlugin::create()->get_lang('UserTracking'),
             ];
         }
     }

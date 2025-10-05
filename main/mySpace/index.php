@@ -80,6 +80,12 @@ if ($is_platform_admin) {
             Display::return_icon('session.png', get_lang('SessionFilterReport'), [], ICON_SIZE_MEDIUM),
             api_get_path(WEB_CODE_PATH).'mySpace/session_filter.php'
         );
+        if (api_get_configuration_value('plugin_user_profile_enabled')) {
+            $menu_items[] = Display::url(
+                Display::return_icon('user.png', get_lang('UserTracking', 'user_profile'), [], ICON_SIZE_MEDIUM),
+                api_get_path(WEB_PLUGIN_PATH).'user_profile/tracking.php'
+            );
+        }
     } else {
         $menu_items[] = Display::url(
             Display::return_icon(
@@ -106,6 +112,12 @@ if ($is_platform_admin) {
             Display::return_icon('session.png', get_lang('SessionFilterReport'), [], ICON_SIZE_MEDIUM),
             api_get_path(WEB_CODE_PATH).'mySpace/session_filter.php'
         );
+        if (api_get_configuration_value('plugin_user_profile_enabled')) {
+            $menu_items[] = Display::url(
+                Display::return_icon('user.png', get_lang('UserTracking', 'user_profile'), [], ICON_SIZE_MEDIUM),
+                api_get_path(WEB_PLUGIN_PATH).'user_profile/tracking.php'
+            );
+        }
 
         if ($pluginCalendar) {
             $lpCalendar = LearningCalendarPlugin::create();
@@ -136,6 +148,12 @@ if ($is_drh) {
         Display::return_icon('session.png', get_lang('Sessions'), [], ICON_SIZE_MEDIUM),
         'session.php'
     );
+    if (api_get_configuration_value('plugin_user_profile_enabled')) {
+        $menu_items[] = Display::url(
+            Display::return_icon('user.png', get_lang('UserTracking', 'user_profile'), [], ICON_SIZE_MEDIUM),
+            api_get_path(WEB_PLUGIN_PATH).'user_profile/tracking.php'
+        );
+    }
     $menu_items[] = Display::url(
         Display::return_icon('empty_evaluation.png', get_lang('CompanyReport'), [], ICON_SIZE_MEDIUM),
         'company_reports.php'

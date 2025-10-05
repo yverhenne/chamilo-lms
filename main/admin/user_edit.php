@@ -6,6 +6,16 @@ use ChamiloSession as Session;
 
 $cidReset = true;
 require_once __DIR__.'/../inc/global.inc.php';
+$profilePluginEnabled = api_get_configuration_value('plugin_user_profile_enabled');
+$pluginInstalled = AppPlugin::getInstance()->isInstalled('user_profile');
+$profilePlugin = null;
+if ($profilePluginEnabled && $pluginInstalled) {
+    require_once api_get_path(SYS_PLUGIN_PATH).'user_profile/config.php';
+    require_once api_get_path(SYS_PLUGIN_PATH).'user_profile/UserProfilePlugin.php';
+    $profilePlugin = UserProfilePlugin::create();
+    // Ensure plugin auxiliary tables exist (e.g., user_company)
+    $profilePlugin->ensureEntrepriseSchema();
+}
 
 $this_section = SECTION_PLATFORM_ADMIN;
 
@@ -384,6 +394,18 @@ $returnParams = $extraField->addElements(
     false,
     true
 );
+if ($profilePluginEnabled && $pluginInstalled) {
+    $profilePlugin->addFieldsToForm($form, $user_data['user_id']);
+    $teacherOptions = $profilePlugin->getTeacherOptions();
+    if (!empty($teacherOptions)) {
+        $form->addSelect('teachers', get_lang('Teachers'), $teacherOptions, ['multiple' => 'multiple']);
+    }
+    // Company selection
+    $companyOptions = $profilePlugin->getCompanyOptions();
+    if (!empty($companyOptions)) {
+        $form->addSelect('company', get_plugin_lang('Entreprise', 'UserProfilePlugin'), $companyOptions);
+    }
+}
 $jqueryReadyContent = $returnParams['jquery_ready_content'];
 
 $allowEmailTemplate = api_get_configuration_value('mail_template_system');
@@ -428,6 +450,16 @@ if (empty($expiration_date)) {
     $user_data['expiration_date'] = api_get_local_time($expiration_date);
 }
 $form->setDefaults($user_data);
+if ($profilePluginEnabled && $pluginInstalled) {
+    $selectedTeachers = $profilePlugin->getUserTeachers($user_id);
+    if (!empty($selectedTeachers)) {
+        $form->setDefaults(['teachers' => $selectedTeachers]);
+    }
+    $selectedCompany = $profilePlugin->getUserCompanyId($user_id);
+    if (!empty($selectedCompany)) {
+        $form->setDefaults(['company' => $selectedCompany]);
+    }
+}
 
 $error_drh = false;
 // Validate form
@@ -558,6 +590,13 @@ if ($form->validate()) {
 
     $extraFieldValue = new ExtraFieldValue('user');
     $extraFieldValue->saveFieldValues($user);
+    if ($profilePluginEnabled && $pluginInstalled) {
+        $profilePlugin->saveUserValues($user_id, $user);
+        $profilePlugin->saveUserTeachers($user_id, $user['teachers'] ?? []);
+        if (isset($user['company'])) {
+            $profilePlugin->saveUserCompany($user_id, (int) $user['company'] ?: null);
+        }
+    }
     $userInfo = api_get_user_info($user_id);
     $message = get_lang('UserUpdated').': '.Display::url(
         $userInfo['complete_name_with_username'],
